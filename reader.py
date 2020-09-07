@@ -44,7 +44,7 @@ def get_chat(api_key, chat_id, pageToken, log_file):
         params['pageToken'] = pageToken
 
     _data = requests.get(url, params=params).json()
-    print("read done!")
+    #print("read done!")
 
     try:
         with open(log_file, 'a') as fp:
