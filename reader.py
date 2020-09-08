@@ -11,7 +11,7 @@ def read_yaml(file_name):
     """設定ファイルの読み込み"""
 
     with open(file_name, 'r') as fp:
-        config = yaml.load(fp)
+        config = yaml.load(fp, Loader=yaml.FullLoader)
     return config
 
 
@@ -44,17 +44,22 @@ def get_chat(api_key, chat_id, pageToken, log_file):
         params['pageToken'] = pageToken
 
     _data = requests.get(url, params=params).json()
-    #print("read done!")
 
     try:
+        snippet_list = []
+        for item in _data['items']:
+            if item['snippet']['type'] == 'superChatEvent':
+                item['snippet']['displayName'] = item['authorDetails']['displayName']
+                snippet_list.append(item['snippet'])
+
+        snippet_list.sort(key=lambda x: x['publishedAt'])
         with open(log_file, 'a') as fp:
-            for item in _data['items']:
-                if item['snippet']['type'] == 'superChatEvent':
-                    usr       = item['authorDetails']['displayName']
-                    msg       = item['snippet']['displayMessage']
-                    log_text  = '[by {}]\n  {}'.format(usr, msg)
-                    print(log_text)
-                    print(item, file=fp)
+            for item in snippet_list:
+                usr = item['displayName']
+                msg = item['displayMessage']
+                print('[by {}]\n  {}'.format(usr, msg))
+                item_str = json.dumps(item)
+                print(item_str, file=fp)
     except:
         pass
 
@@ -71,7 +76,6 @@ def main(config):
 
     chat_id  = get_chat_id(api_key, live_id)
 
-    SuperChatList = []
     nextPageToken = None
     while True:
         try:
