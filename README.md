@@ -2,20 +2,20 @@
 
 Youtubeのスパチャを読み込んで一覧にするツール
 
-## 事前準備
+## ■事前準備
 
 下記の準備をしてください。
 
-### ■YouTubeのAPIKey取得
+### YouTubeのAPIKey取得
 
 下記のリンクからYouTubeのAPIキーを取得してください。
 
 [YouTube API Keyの取得](https://qiita.com/iroiro_bot/items/1016a6a439dfb8d21eca)
 
-### ■設定ファイルの準備
+### 設定ファイルの準備
 
 以下のconfig.yamlファイルを作成して、同じフォルダに保存する。
-API_KEYの`XXXXXX`部分には、先程取得したAPIキーをっ買い込みます。
+API_KEYの`XXXXXX`部分には、先程取得したAPIキーを書き込みます。
 YouTubeURLは、Live配信のURLをコピペで貼ってください。
 
 config.yaml
@@ -26,18 +26,19 @@ YouTubeURL: https://www.youtube.com/watch?v=XXXXXXXXXX
 sleep_time:  10 #sec
 ```
 
-### ■インストール
+### インストール
 
 python3.6.9 >=
 
-Ubuntu
+#### Ubuntu
+
 ```bash
 sudo apt update
 sudo apt install python3-dev
 sudo pip3 install pyyaml
 ```
 
-Windows
+#### Windows
 
 + [install link](https://www.python.jp/install/windows/install.html)
 + [setting](https://www.javadrive.jp/python/install/index3.html)
