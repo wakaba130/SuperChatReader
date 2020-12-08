@@ -72,9 +72,9 @@ class live_chat_reader():
                     print('[by {}]\n  {}'.format(usr, msg))
                     item_str = json.dumps(item)
                     print(item_str, file=fp)
-            #with open(self.textchat_log_file, 'a') as fpt:
-            #    for item in textchat_list:
-            #        fpt.write("{}\n".format(item['publishedAt']))                    
+            with open(self.textchat_log_file, 'a') as fpt:
+                for item in textchat_list:
+                    fpt.write("{}\n".format(item['publishedAt']))                    
         except:
             pass
 
