@@ -1,2 +1,6 @@
 *.yaml
 log/
+kivy-todolist/
+rec.txt
+todo.kv
+Main.py
