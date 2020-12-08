@@ -59,6 +59,7 @@ class live_chat_reader():
             textchat_list = []
             for item in _data['items']:
                 if item['snippet']['type'] == 'superChatEvent':
+                    item['snippet']['displayName'] = item['authorDetails']['displayName']
                     superchat_list.append(item['snippet'])
                 elif item['snippet']['type'] == 'textMessageEvent':
                     textchat_list.append(item['snippet'])
@@ -71,9 +72,9 @@ class live_chat_reader():
                     print('[by {}]\n  {}'.format(usr, msg))
                     item_str = json.dumps(item)
                     print(item_str, file=fp)
-            with open(self.textchat_log_file, 'a') as fpt:
-                for item in textchat_list:
-                    fpt.write("{}\n".format(item['publishedAt']))                    
+            #with open(self.textchat_log_file, 'a') as fpt:
+            #    for item in textchat_list:
+            #        fpt.write("{}\n".format(item['publishedAt']))                    
         except:
             pass
 
