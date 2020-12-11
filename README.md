@@ -1,6 +1,8 @@
 # SuperChatReader
 
-Youtubeのスパチャを読み込んで一覧にするツール
++ Youtubeのスパチャを読み込んで一覧にするツール
++ ライブ配信中のチャットヒストグラム作成
+  + チャットの盛り上がりの可視化
 
 ## ■事前準備
 
@@ -11,6 +13,39 @@ Youtubeのスパチャを読み込んで一覧にするツール
 下記のリンクからYouTubeのAPIキーを取得してください。
 
 [YouTube API Keyの取得](https://qiita.com/iroiro_bot/items/1016a6a439dfb8d21eca)
+
+### インストール
+
+python3.6.9 >=
+
+#### Ubuntu
+
+```bash
+sudo apt update
+sudo apt install python3-dev
+sudo pip3 install pyyaml
+git clone https://github.com/wakaba130/SuperChatReader.git
+```
+
+#### Windows
+
++ [install link](https://www.python.jp/install/windows/install.html)
++ [setting](https://www.javadrive.jp/python/install/index3.html)
+
+リンクの設定後、pipでpyyamlをインストールする。
+コマンドプロンプトで以下を実行する。
+
+```
+$ python -m pip install pyyaml
+$ git clone https://github.com/wakaba130/SuperChatReader.git
+```
+
+
+# 実行方法
+
+## reader
+
+配信準備中、配信中のスパチャログと通常チャットの投稿時間ログを保存する。
 
 ### 設定ファイルの準備
 
@@ -26,47 +61,36 @@ YouTubeURL: https://www.youtube.com/watch?v=XXXXXXXXXX
 sleep_time:  10 #sec
 ```
 
-### インストール
-
-python3.6.9 >=
-
-#### Ubuntu
+### 実行
 
 ```bash
-sudo apt update
-sudo apt install python3-dev
-sudo pip3 install pyyaml
-```
-
-#### Windows
-
-+ [install link](https://www.python.jp/install/windows/install.html)
-+ [setting](https://www.javadrive.jp/python/install/index3.html)
-
-リンクの設定後、pipでpyyamlをインストールする。
-コマンドプロンプトで以下を実行する。
-
-```
-python -m pip install pyyaml
-```
-
-
-## 実行方法
-
-```bash
-$ git clone https://github.com/wakaba130/SuperChatReader.git
 $ cd SuperChatReader
 $ python3 reader.py
 ```
 
+## create_hist
+
+チャットの投稿頻度を分単位で可視化する。
+reader.pyで取得したログファイルを指定する。
+
+```bash
+$ python create_hist.py --logfile [text_XXXXXXXXXXX.log]
+```
+
+
 # ToDo
 
-+ スパチャを見やすくする
-+ GUI対応
-+ ToDoリストのように読んだチャットをチェックする
-+ 自分のスパチャのみハイライト表示
++ reader
+  + スパチャを見やすくする
+  + GUI対応
+  + ToDoリストのように読んだチャットをチェックする
+  + 自分のスパチャのみハイライト表示
++ create_hist
+  + ヒストグラムから、上位○位に入る時間を表示
 
 ## できたらいいこと
 
 + 自動チェック
   + 特定の言葉(〜さん、ありがとう)が入った場合にリストを更新する。
++ ハイライト動画自動作成
+  + チャットの盛り上がりから、ハイライト動画を作成

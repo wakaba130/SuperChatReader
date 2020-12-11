@@ -23,8 +23,10 @@ class live_chat_reader():
         self.superchat_log_file = 'log/' + self.live_id + '.log'
         self.textchat_log_file = 'log/text_' + self.live_id + '.log'
         print(self.superchat_log_file)
+        print(self.textchat_log_file)
         self.chat_id  = self._get_chat_id()
         self.pageToken = None
+        self.start_time = None
 
     def _get_chat_id(self):
         """チャット基本情報の取得"""
@@ -43,6 +45,27 @@ class live_chat_reader():
 
         return chat_id
 
+    def get_start_time(self):
+        """配信開始時間の取得"""
+
+        if not self.start_time is None:
+            return self.start_time
+
+        # チャット基本情報の取得
+        url    = 'https://www.googleapis.com/youtube/v3/videos'
+        params = {'key': self.api_key, 'id': self.live_id, 'part': 'liveStreamingDetails'}
+        data   = requests.get(url, params=params).json()
+
+        liveStreamingDetails = data['items'][0]['liveStreamingDetails']
+
+        try:
+            if 'actualStartTime' in liveStreamingDetails.keys():
+                self.start_time = liveStreamingDetails['actualStartTime']
+        except:
+            pass
+        
+        return self.start_time
+
 
     def get_chat(self):
         """チャットの内容取得"""
@@ -53,7 +76,7 @@ class live_chat_reader():
             params['pageToken'] = self.pageToken
 
         _data = requests.get(url, params=params).json()
-
+        
         try:
             superchat_list = []
             textchat_list = []
@@ -82,14 +105,21 @@ class live_chat_reader():
         time.sleep(self.sleep_time)
         return superchat_list
 
+    def dump_start_time(self):
+        with open(self.textchat_log_file, 'a') as fpt:
+            fpt.write("{}\n".format(self.start_time)) 
+
+
 def main(config):
     liveChat = live_chat_reader(config)
     while True:
         try:
             liveChat.get_chat()
+            liveChat.get_start_time()
         except:
             print("time out or next token error")
             break
+    liveChat.dump_start_time()
 
 
 if __name__ == '__main__':
