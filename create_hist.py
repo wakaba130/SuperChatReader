@@ -59,6 +59,11 @@ def main(args):
 
     left = [m for m in hist]
     height = [hist[m] for m in hist]
+
+    plt.title('chat histgram')
+    plt.xlabel('time line')
+    plt.ylabel('chat frequency')
+
     plt.bar(left, height)
     plt.xticks(rotation=90)
     plt.show()

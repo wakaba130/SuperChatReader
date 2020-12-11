@@ -21,10 +21,12 @@ python3.6.9 >=
 #### Ubuntu
 
 ```bash
-sudo apt update
-sudo apt install python3-dev
-sudo pip3 install pyyaml
-git clone https://github.com/wakaba130/SuperChatReader.git
+$ sudo apt update
+$ sudo apt install python3-dev
+$ sudo pip3 install pyyaml
+$ sudo pip3 install numpy
+$ sudo pip3 install matplotlib
+$ git clone https://github.com/wakaba130/SuperChatReader.git
 ```
 
 #### Windows
@@ -37,6 +39,8 @@ git clone https://github.com/wakaba130/SuperChatReader.git
 
 ```
 $ python -m pip install pyyaml
+$ sudo pip3 install numpy
+$ sudo pip3 install matplotlib
 $ git clone https://github.com/wakaba130/SuperChatReader.git
 ```
 
@@ -76,6 +80,10 @@ reader.pyで取得したログファイルを指定する。
 ```bash
 $ python create_hist.py --logfile [text_XXXXXXXXXXX.log]
 ```
+
+下図のように分単位のチャットの盛り上がりがわかります。
+
+![image](test/chat_hist.png)
 
 
 # ToDo
