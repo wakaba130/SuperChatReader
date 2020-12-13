@@ -78,23 +78,35 @@ $ python3 reader.py
 reader.pyで取得したログファイルを指定する。
 
 ```bash
-$ python create_hist.py --logfile [text_XXXXXXXXXXX.log]
+$ python create_hist.py --logfile [text_XXXXXXXXXXX.log] --top 5
 ```
 
 下図のように分単位のチャットの盛り上がりがわかります。
 
 ![image](test/chat_hist.png)
 
+また、ターミナルには、`--top`で指定した上位のチャット時間が表示されます。
+
+```
+=== top 5 ===
+('0:52', 812.0)
+('0:22', 800.0)
+('0:50', 774.0)
+('0:27', 738.0)
+('0:25', 730.0)
+```
 
 # ToDo
 
 + reader
+  + 配信前予約機能
+    + ライブ配信前の動画URLに対して、ずっとパラメータ取得を行っていると切断されるため
   + スパチャを見やすくする
   + GUI対応
   + ToDoリストのように読んだチャットをチェックする
   + 自分のスパチャのみハイライト表示
 + create_hist
-  + ヒストグラムから、上位○位に入る時間を表示
+  + 特になし
 
 ## できたらいいこと
 

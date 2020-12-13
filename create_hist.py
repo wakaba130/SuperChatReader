@@ -15,6 +15,7 @@ def argparser():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('--logfile', type=str, default='log/text_8d5M0ZU0H1M.log')
+    parser.add_argument('--top', type=int, default=5)
     return parser.parse_args()
 
 
@@ -42,7 +43,6 @@ def main(args):
             time_line.append(line)
 
     start_time = str2datetime(time_line[-1])
-    print(start_time)
     
     hist = {}
     for tt in time_line:
@@ -58,7 +58,13 @@ def main(args):
                 hist[idx] = 0.0
 
     left = [m for m in hist]
-    height = [hist[m] for m in hist]
+    height = [int(hist[m]) for m in hist]
+
+    score_sorted = sorted(hist.items(), key=lambda x:x[1], reverse=True)
+
+    print("=== top {} ===".format(args.top))
+    for i in range(0, args.top, 1):
+        print(score_sorted[i])
 
     plt.title('chat histgram')
     plt.xlabel('time line')
@@ -67,6 +73,7 @@ def main(args):
     plt.bar(left, height)
     plt.xticks(rotation=90)
     plt.show()
+    
 
 if __name__ == "__main__":
     args = argparser()
