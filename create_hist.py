@@ -21,6 +21,8 @@ def argparser():
 
 def str2datetime(chat_time):
     # format 2020-12-08T14:04:32.249000Z
+    print(chat_time)
+    chat_time = chat_time.replace('+00:00', '')
     _date, _time = chat_time.split('T')
     y, m, d = _date.split('-')
     hh, mm, _ss = _time.split(':')
@@ -40,7 +42,8 @@ def main(args):
     with open(args.logfile, 'r') as fp:
         for r in fp:
             line = r.replace('\n', '')
-            time_line.append(line)
+            if 'T' in line:
+                time_line.append(line)
 
     start_time = str2datetime(time_line[-1])
     
