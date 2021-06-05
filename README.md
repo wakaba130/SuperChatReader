@@ -22,7 +22,7 @@ python3.6.9 >=
 
 ```bash
 $ sudo apt update
-$ sudo apt install python3-dev
+$ sudo apt install python3-dev python3-tk
 $ sudo pip3 install pyyaml
 $ sudo pip3 install numpy
 $ sudo pip3 install matplotlib

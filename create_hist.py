@@ -21,7 +21,6 @@ def argparser():
 
 def str2datetime(chat_time):
     # format 2020-12-08T14:04:32.249000Z
-    print(chat_time)
     chat_time = chat_time.replace('+00:00', '')
     _date, _time = chat_time.split('T')
     y, m, d = _date.split('-')
@@ -75,7 +74,7 @@ def main(args):
 
     plt.bar(left, height)
     plt.xticks(rotation=90)
-    plt.show()
+    plt.savefig("img.png")
     
 
 if __name__ == "__main__":
