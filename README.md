@@ -47,6 +47,34 @@ $ git clone https://github.com/wakaba130/SuperChatReader.git
 
 # 実行方法
 
+## SuperChatReader GUI
+
+スパチャ読みで使用しやすいGUIを作成しました。
+
+### 実行方法
+
+以下のコマンドを入力する
+
+```
+$ cd SuperChatReader
+$ python3 chatlist_gui.py
+```
+
+実行すると以下の画面が起動します。
+
+![image](test/SuperChatReader.png)
+
+`YouTubeURL：`の欄にスーパーチャットを読み込む配信URLをコピペします。
+
+`YouTubeAPI KEY：`の欄にYouTubeのAPIキーを入力します。
+
+`start`：ボタンを押すと、スーパーチャットのログを取り始めます。
+
+`リッロード！`：ホタンを押すと、スーパーチャットの情報を上のリストに表示します。
+
+`読んだ！`：ボタンを押すと、一番最初の欄の名前が削除されます。
+
+
 ## reader
 
 配信準備中、配信中のスパチャログと通常チャットの投稿時間ログを保存する。
@@ -102,8 +130,6 @@ $ python create_hist.py --logfile [text_XXXXXXXXXXX.log] --top 5
   + 配信前予約機能
     + ライブ配信前の動画URLに対して、ずっとパラメータ取得を行っていると切断されるため
   + スパチャを見やすくする
-  + GUI対応
-  + ToDoリストのように読んだチャットをチェックする
   + 自分のスパチャのみハイライト表示
 + create_hist
   + 特になし

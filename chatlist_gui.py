@@ -2,6 +2,7 @@
 # coding:utf-8
 ##
 
+import os
 import json
 import yaml
 import reader
@@ -15,6 +16,10 @@ class App:
         """
          ウィンドウを初期化
         """
+
+        if not os.path.isdir("log"):
+            os.makedirs("log")
+
         self.master = tk.Tk()
         self.master.title('SuperChatList')
         self.master.geometry('800x600')
