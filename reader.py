@@ -22,8 +22,8 @@ class live_chat_reader():
         self.live_id = YouTubeURL.replace('https://www.youtube.com/watch?v=', '')
         self.superchat_log_file = 'log/' + self.live_id + '.log'
         self.textchat_log_file = 'log/text_' + self.live_id + '.log'
-        print(self.superchat_log_file)
-        print(self.textchat_log_file)
+        #print(self.superchat_log_file)
+        #print(self.textchat_log_file)
         self.chat_id  = self._get_chat_id()
         self.pageToken = None
         self.start_time = None
@@ -38,14 +38,14 @@ class live_chat_reader():
 
         if 'activeLiveChatId' in liveStreamingDetails.keys():
             chat_id = liveStreamingDetails['activeLiveChatId']
-            print('get_chat_id done!')
+            #print('get_chat_id done!')
         else:
             chat_id = None
-            print('NOT live')
+            #print('NOT live')
 
         return chat_id
 
-    def get_start_time(self):
+    def _get_start_time(self):
         """配信開始時間の取得"""
 
         if not self.start_time is None:
@@ -67,7 +67,7 @@ class live_chat_reader():
         return self.start_time
 
 
-    def get_chat(self):
+    def _get_chat(self):
         """チャットの内容取得"""
         url    = 'https://www.googleapis.com/youtube/v3/liveChat/messages'
         params = {'key': self.api_key, 'liveChatId': self.chat_id, 'part': 'id,snippet,authorDetails'}
@@ -94,7 +94,8 @@ class live_chat_reader():
                     msg = item['displayMessage']
                     print('[by {}]\n  {}'.format(usr, msg))
                     item_str = json.dumps(item)
-                    print(item_str, file=fp)
+                    fp.write("{}\n".format(item_str))
+                    #print(item_str, file=fp)
             with open(self.textchat_log_file, 'a') as fpt:
                 for item in textchat_list:
                     fpt.write("{}\n".format(item['publishedAt']))                    
@@ -109,16 +110,19 @@ class live_chat_reader():
         with open(self.textchat_log_file, 'a') as fpt:
             fpt.write("{}\n".format(self.start_time)) 
 
+    def main_loop(self):
+        while True:
+            try:
+                self._get_chat()
+                self._get_start_time()
+            except:
+                #print("time out or next token error")
+                break
+
 
 def main(config):
     liveChat = live_chat_reader(config)
-    while True:
-        try:
-            liveChat.get_chat()
-            liveChat.get_start_time()
-        except:
-            print("time out or next token error")
-            break
+    liveChat.main_loop()
     liveChat.dump_start_time()
 
 

@@ -1,5 +1,6 @@
 *.yaml
 log/
+log_buf/
 kivy-todolist/
 rec.txt
 todo.kv
