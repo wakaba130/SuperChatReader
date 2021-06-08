@@ -1,5 +1,6 @@
 *.yaml
 log/
+__pycache__/
 log_buf/
 kivy-todolist/
 build/
