@@ -92,7 +92,7 @@ class live_chat_reader():
                 for item in superchat_list:
                     usr = item['displayName']
                     msg = item['displayMessage']
-                    print('[by {}]\n  {}'.format(usr, msg))
+                    #print('[by {}]\n  {}'.format(usr, msg))
                     item_str = json.dumps(item)
                     fp.write("{}\n".format(item_str))
                     #print(item_str, file=fp)

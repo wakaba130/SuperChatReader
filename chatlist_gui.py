@@ -46,6 +46,7 @@ class SettingArea(tk.Frame):
         # 各種ウィジェットの作成
         self.url_label = tk.Label(self, text="YouTubeURL：")
         self.api_label = tk.Label(self, text="YouTubeAPI KEY：")
+        self.err_label = tk.Label(self, text="----")
         self.url_entry = tk.Entry(self)
         self.api_entry = tk.Entry(self)
         self.button = tk.Button(self, text="start", command=self._click_read_btn)
@@ -55,7 +56,13 @@ class SettingArea(tk.Frame):
         self.api_label.grid(row=1, column=0)
         self.url_entry.grid(row=0, column=1)
         self.api_entry.grid(row=1, column=1)
+        self.err_label.grid(row=2, column=1)
         self.button.grid(row=1, column=2)
+
+        if os.path.isfile("config.yaml"):
+            config = reader.read_yaml("config.yaml")    
+            self.url_entry.insert(0, config["YouTubeURL"])
+            self.api_entry.insert(0, config["API_KEY"])
 
         # APIキーの文字数
         self.api_key_length = 39
@@ -71,17 +78,17 @@ class SettingArea(tk.Frame):
         
         if "" == url_str or "" == api_str:
             # URLかAPIキーが入力されていない
-            print("url or api_key is empty")
+            self.err_label["text"] = "URLかAPIキーが入力されていません"
             return False
         
         if not "https://www.youtube.com/watch?v=" in url_str:
             # URLか入力されていない
-            print("url is ")
+            self.err_label["text"] = "URLが入力されていません"
             return False
 
         if not len(api_str) == self.api_key_length:
             # APIキーの長さがおかしい
-            print()
+            self.err_label["text"] = "APIキーの文字数がおかしいです"
             return False
         return True
     
@@ -94,9 +101,9 @@ class SettingArea(tk.Frame):
         
         read_flg = self._read_check(yurl, apikey)
 
-        print(yurl)
-        print(apikey)
-        print(read_flg)
+        #print(yurl)
+        #print(apikey)
+        #print(read_flg)
 
         if not read_flg:
             return
@@ -111,6 +118,8 @@ class SettingArea(tk.Frame):
         thread = Thread(target=liveChat.main_loop, name="SubThread", daemon=True)
         if not thread.ident:
             thread.start()
+            dt = str(datetime.now()).split('.')[0]
+            self.err_label["text"] = "スパチャ取得開始：{}".format(dt)
 
 
 class ListArea(tk.Frame):
@@ -138,12 +147,23 @@ class ListArea(tk.Frame):
         self.counter += 1
         self.listbox.delete(0)
 
+    def _split_coment(self, coment):
+        """
+        コメントの切り出し
+        ToDo: 絵文字コード対応
+        """
+        sp_coment = coment.split("\"")
+        if len(sp_coment) > 1:
+            return sp_coment[1]
+        
+        return ""
+
     def _loader(self, file):
         """
         ログテキストの読み込み
         """
 
-        print("loader: {}".format(file))
+        #print("loader: {}".format(file))
 
         with open(file, 'r') as fp:
             for i, _line in enumerate(fp):
@@ -151,12 +171,13 @@ class ListArea(tk.Frame):
                 chat_time = json_dict["publishedAt"]
                 dtime = create_hist.str2datetime(chat_time)
                 user_name = json_dict['displayName']
-                coment = json_dict['displayMessage']
-                #print("{} : {}".format(user_name, coment))
-                #view = "{}:    {}".format(user_name, coment)
+                coment = self._split_coment(json_dict['displayMessage'])
+                view = "{:<33}  {}".format(user_name, coment)
                 #print(view)
                 if self.read_time is None or dtime > self.read_time:
-                    self.listbox.insert('end', user_name)
+                    self.listbox.insert('end', view)
+                    if self.counter % 2 == 0:
+                        self.listbox.itemconfig(self.counter, {'bg': 'pink'})
                     self.counter += 1
         self.read_time = dtime
 

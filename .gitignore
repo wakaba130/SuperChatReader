@@ -2,6 +2,9 @@
 log/
 log_buf/
 kivy-todolist/
+build/
+dist/
+*.spec
 rec.txt
 todo.kv
 Main.py
