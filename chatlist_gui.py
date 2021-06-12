@@ -127,7 +127,7 @@ class ListArea(tk.Frame):
         super(ListArea, self).__init__(master)
 
         # リストの作成
-        self.listbox = tk.Listbox(self, height=10, font=("MSゴシック", "12"))
+        self.listbox = tk.Listbox(self, height=10, font=("MSゴシック", "12", "bold"))
         self.listbox.pack(side='top', expand=True, fill='both')
 
         # 読込みボタンの作成
@@ -153,7 +153,7 @@ class ListArea(tk.Frame):
         ToDo: 絵文字コード対応
         """
         sp_coment = coment.replace("{}:".format(u_name), "").split(" ")
-        print(sp_coment)
+        #print(sp_coment)
         if len(sp_coment) <= 3:
             return "_"
         
