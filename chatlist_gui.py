@@ -22,7 +22,7 @@ class App:
 
         self.master = tk.Tk()
         self.master.title('SuperChatList')
-        self.master.geometry('800x600')
+        self.master.geometry('1000x600')
         self.master.configure(padx=16, pady=16)
 
         self.setting_area = SettingArea(self.master)
@@ -127,7 +127,7 @@ class ListArea(tk.Frame):
         super(ListArea, self).__init__(master)
 
         # リストの作成
-        self.listbox = tk.Listbox(self, height=10)
+        self.listbox = tk.Listbox(self, height=10, font=("MSゴシック", "12"))
         self.listbox.pack(side='top', expand=True, fill='both')
 
         # 読込みボタンの作成
@@ -147,16 +147,17 @@ class ListArea(tk.Frame):
         self.counter += 1
         self.listbox.delete(0)
 
-    def _split_coment(self, coment):
+    def _split_coment(self, u_name, coment):
         """
         コメントの切り出し
         ToDo: 絵文字コード対応
         """
-        sp_coment = coment.split("\"")
-        if len(sp_coment) > 1:
-            return sp_coment[1]
+        sp_coment = coment.replace("{}:".format(u_name), "").split(" ")
+        print(sp_coment)
+        if len(sp_coment) <= 3:
+            return "_"
         
-        return ""
+        return sp_coment[3]
 
     def _loader(self, file):
         """
@@ -165,21 +166,23 @@ class ListArea(tk.Frame):
 
         #print("loader: {}".format(file))
 
+        dtime = None
         with open(file, 'r') as fp:
             for i, _line in enumerate(fp):
                 json_dict = json.loads(_line.replace('\n', ''))
                 chat_time = json_dict["publishedAt"]
                 dtime = create_hist.str2datetime(chat_time)
                 user_name = json_dict['displayName']
-                coment = self._split_coment(json_dict['displayMessage'])
-                view = "{:<33}  {}".format(user_name, coment)
+                coment = self._split_coment(user_name, json_dict['displayMessage'])
+                view = "{:<33s} {}".format(user_name, coment)
                 #print(view)
                 if self.read_time is None or dtime > self.read_time:
                     self.listbox.insert('end', view)
                     if self.counter % 2 == 0:
                         self.listbox.itemconfig(self.counter, {'bg': 'pink'})
                     self.counter += 1
-        self.read_time = dtime
+        if dtime != None:
+            self.read_time = dtime
 
     def _click_read_btn(self):
         """
