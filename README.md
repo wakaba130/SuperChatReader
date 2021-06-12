@@ -12,40 +12,40 @@
 
 下記のリンクからYouTubeのAPIキーを取得してください。
 
+※このキーは悪用されないように、誰にも秘密にして管理してください。
+
 [YouTube API Keyの取得](https://qiita.com/iroiro_bot/items/1016a6a439dfb8d21eca)
 
-### インストール
+
+## ■インストール
 
 python3.6.9 >=
 
-#### Ubuntu
+### Ubuntu
+
+※特殊文字コード（絵文字）に未対応
 
 ```bash
 $ sudo apt update
 $ sudo apt install python3-dev python3-tk
-$ sudo pip3 install pyyaml
-$ sudo pip3 install numpy
-$ sudo pip3 install matplotlib
+$ sudo pip3 install -r requirements.txt
 $ git clone https://github.com/wakaba130/SuperChatReader.git
 ```
 
-#### Windows
+### Windows(code)
 
-+ [install link](https://www.python.jp/install/windows/install.html)
-+ [setting](https://www.javadrive.jp/python/install/index3.html)
++ [python install link](https://www.python.jp/install/windows/install.html)
++ [python setting](https://www.javadrive.jp/python/install/index3.html)
 
-リンクの設定後、pipでpyyamlをインストールする。
+リンクの設定後、pipで関連ライブラリをインストールする。
 コマンドプロンプトで以下を実行する。
 
 ```
-$ python -m pip install pyyaml
-$ sudo pip3 install numpy
-$ sudo pip3 install matplotlib
+$ sudo pip3 install -r requirements.txt
 $ git clone https://github.com/wakaba130/SuperChatReader.git
 ```
 
-
-# 実行方法
+## ■実行方法
 
 ## SuperChatReader GUI
 
@@ -55,25 +55,41 @@ $ git clone https://github.com/wakaba130/SuperChatReader.git
 
 以下のコマンドを入力する
 
-```
-$ cd SuperChatReader
-$ python3 chatlist_gui.py
-```
 
-実行すると以下の画面が起動します。
+1. Releaseから `SuperChatReader.zip` をダウンロードします。
+1. `SuperChatReader.zip`を解凍すると、`chatlist_gui.exe`があります
+1. ダブルクリックすると実行され、以下のウィンドウが起動します。
+
+※ネット接続するアプリケーションであるため、起動時にセキュリティソフトが反応する場合があります。
 
 ![image](test/SuperChatReader.png)
 
 `YouTubeURL：`の欄にスーパーチャットを読み込む配信URLをコピペします。
 
+YouTubeの `https://www.youtube.com/watch?v=XXXXXXXXXXX`という配信URLを入れてください。
+
+![image](test/url.jpg)
+
 `YouTubeAPI KEY：`の欄にYouTubeのAPIキーを入力します。
+
+![image](test/api.jpg)
 
 `start`：ボタンを押すと、スーパーチャットのログを取り始めます。
 
+開始時間が表示されます。開始時間以前のスーパーチャットは読み込まれません。
+
+![image](test/start.jpg)
+
 `リッロード！`：ホタンを押すと、スーパーチャットの情報を上のリストに表示します。
+
+並び順は、スーパーチャットを投げた時間になります。
+リロードボタンを押すと更新がかかり、リストが更新されます。
+
+![image](test/reload.jpg)
 
 `読んだ！`：ボタンを押すと、一番最初の欄の名前が削除されます。
 
+![image](test/done.jpg)
 
 ## reader
 

@@ -5,6 +5,7 @@ log_buf/
 kivy-todolist/
 build/
 dist/
+SuperChatReader/
 *.spec
 rec.txt
 todo.kv
