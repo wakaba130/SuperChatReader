@@ -147,17 +147,19 @@ class ListArea(tk.Frame):
         self.counter += 1
         self.listbox.delete(0)
 
-    def _split_coment(self, u_name, coment):
+    def _split_comment(self, u_name, comment):
         """
         コメントの切り出し
         ToDo: 絵文字コード対応
         """
-        sp_coment = coment.replace("{}:".format(u_name), "").split(" ")
-        #print(sp_coment)
-        if len(sp_coment) <= 3:
+        sp_comment = comment.replace("{}:".format(u_name), "").split(" ")
+        #print(sp_comment)
+        if len(sp_comment) <= 3:
             return "_"
         
-        return sp_coment[3]
+        print(sp_comment)
+        joint_com = [sp_comment[s] for s in range(3, len(sp_comment), 1)]
+        return " ".join(joint_com)
 
     def _loader(self, file):
         """
@@ -173,8 +175,8 @@ class ListArea(tk.Frame):
                 chat_time = json_dict["publishedAt"]
                 dtime = create_hist.str2datetime(chat_time)
                 user_name = json_dict['displayName']
-                coment = self._split_coment(user_name, json_dict['displayMessage'])
-                view = "{:<33s} {}".format(user_name, coment)
+                comment = self._split_comment(user_name, json_dict['displayMessage'])
+                view = "{:<33s} {}".format(user_name, comment)
                 #print(view)
                 if self.read_time is None or dtime > self.read_time:
                     self.listbox.insert('end', view)
