@@ -157,7 +157,7 @@ class ListArea(tk.Frame):
         if len(sp_comment) <= 3:
             return "_"
         
-        print(sp_comment)
+        #print(sp_comment)
         joint_com = [sp_comment[s] for s in range(3, len(sp_comment), 1)]
         return " ".join(joint_com)
 
