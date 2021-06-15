@@ -61,6 +61,11 @@ $ git clone https://github.com/wakaba130/SuperChatReader.git
 1. ダブルクリックすると実行され、以下のウィンドウが起動します。
 
 ※ネット接続するアプリケーションであるため、起動時にセキュリティソフトが反応する場合があります。
+その場合、`詳細情報`をクリックすると、`実行`のボタンが出てきます。
+
+![image](test/windef.jpg)
+
+実行時の画面です。
 
 ![image](test/SuperChatReader.png)
 
