@@ -3,11 +3,11 @@
 ##
 
 import os
+import sys
 import json
 import yaml
 import reader
 import tkinter as tk
-import create_hist
 from threading import Thread
 from datetime import datetime
 
@@ -161,19 +161,34 @@ class ListArea(tk.Frame):
         joint_com = [sp_comment[s] for s in range(3, len(sp_comment), 1)]
         return " ".join(joint_com)
 
+    def _str2datetime(self, chat_time):
+        # format 2020-12-08T14:04:32.249000Z
+        chat_time = chat_time.replace('+00:00', '')
+        _date, _time = chat_time.split('T')
+        y, m, d = _date.split('-')
+        hh, mm, _ss = _time.split(':')
+        if '.' in _ss:
+            ss, _ms = _ss.split('.')
+            ms = _ms.replace('Z', '')
+        else:
+            ss = _ss.replace('Z', '')
+            ms = '0'
+        return datetime(year=int(y), month=int(m), day=int(d),
+                        hour=int(hh), minute=int(mm), second=int(ss),
+                        microsecond=int(ms))
+
     def _loader(self, file):
         """
         ログテキストの読み込み
         """
 
         #print("loader: {}".format(file))
-
         dtime = None
         with open(file, 'r') as fp:
             for i, _line in enumerate(fp):
                 json_dict = json.loads(_line.replace('\n', ''))
                 chat_time = json_dict["publishedAt"]
-                dtime = create_hist.str2datetime(chat_time)
+                dtime = self._str2datetime(chat_time)
                 user_name = json_dict['displayName']
                 comment = self._split_comment(user_name, json_dict['displayMessage'])
                 view = "{:<33s} {}".format(user_name, comment)
@@ -228,7 +243,7 @@ class ImageArea(tk.Frame):
 def main():
     app = App()
     app.mainloop()
-
+    sys.exit()
 
 if __name__ == '__main__':
     main()

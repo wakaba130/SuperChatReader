@@ -4,7 +4,7 @@
 
 import argparse
 import copy
-import datetime
+from datetime import datetime
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -18,7 +18,6 @@ def argparser():
     parser.add_argument('--top', type=int, default=5)
     return parser.parse_args()
 
-
 def str2datetime(chat_time):
     # format 2020-12-08T14:04:32.249000Z
     chat_time = chat_time.replace('+00:00', '')
@@ -31,10 +30,9 @@ def str2datetime(chat_time):
     else:
         ss = _ss.replace('Z', '')
         ms = '0'
-    return datetime.datetime(year=int(y), month=int(m), day=int(d),
-                             hour=int(hh), minute=int(mm), second=int(ss),
-                             microsecond=int(ms))
-
+    return datetime(year=int(y), month=int(m), day=int(d),
+                    hour=int(hh), minute=int(mm), second=int(ss),
+                    microsecond=int(ms))
 
 def main(args):
     time_line = []
