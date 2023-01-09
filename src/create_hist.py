@@ -14,7 +14,7 @@ def argparser():
     :return: コマンドライン引数
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--logfile', type=str, default='log/text_8d5M0ZU0H1M.log')
+    parser.add_argument('--logfile', type=str, default='log/text_yujMgVxfPBE.log')
     parser.add_argument('--top', type=int, default=5)
     return parser.parse_args()
 

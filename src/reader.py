@@ -6,6 +6,8 @@ import time
 import requests
 import json
 import yaml
+from dataclasses import dataclass
+
 
 def read_yaml(file_name):
         """設定ファイルの読み込み"""
@@ -14,21 +16,32 @@ def read_yaml(file_name):
             config = yaml.load(fp, Loader=yaml.FullLoader)
         return config
 
+@dataclass
+class YouTubeConfig():
+    YouTubeURL:str
+    api_key:str
+    sleep_time:int = 5
+
+    def dump_dict(self):
+        return {"API_KEY": self.api_key,
+                "YouTubeURL": self.YouTubeURL,
+                "sleep_time": self.sleep_time}
+
 class live_chat_reader():
-    def __init__(self, config):
-        YouTubeURL = config['YouTubeURL']
-        self.sleep_time = config['sleep_time']
-        self.api_key    = config['API_KEY']
+    def __init__(self, config:YouTubeConfig):
+        YouTubeURL = config.YouTubeURL
+        self.sleep_time = config.sleep_time
+        self.api_key    = config.api_key
         self.live_id = YouTubeURL.replace('https://www.youtube.com/watch?v=', '')
         self.superchat_log_file = 'log/' + self.live_id + '.log'
         self.textchat_log_file = 'log/text_' + self.live_id + '.log'
         #print(self.superchat_log_file)
         #print(self.textchat_log_file)
-        self.chat_id  = self._get_chat_id()
+        self.chat_id  = self.get_chat_id()
         self.pageToken = None
         self.start_time = None
 
-    def _get_chat_id(self):
+    def get_chat_id(self):
         """チャット基本情報の取得"""
         url    = 'https://www.googleapis.com/youtube/v3/videos'
         params = {'key': self.api_key, 'id': self.live_id, 'part': 'liveStreamingDetails'}
@@ -38,10 +51,10 @@ class live_chat_reader():
 
         if 'activeLiveChatId' in liveStreamingDetails.keys():
             chat_id = liveStreamingDetails['activeLiveChatId']
-            #print('get_chat_id done!')
+            print('get_chat_id done!')
         else:
             chat_id = None
-            #print('NOT live')
+            print('NOT live')
 
         return chat_id
 
@@ -111,6 +124,9 @@ class live_chat_reader():
             fpt.write("{}\n".format(self.start_time)) 
 
     def main_loop(self):
+        if self.chat_id is None:
+            print("live_chat_reader[main_loop] Error: chat_id is None")
+            return
         while True:
             try:
                 self._get_chat()
@@ -121,7 +137,8 @@ class live_chat_reader():
 
 
 def main(config):
-    liveChat = live_chat_reader(config)
+    youtube_config = YouTubeConfig(config['YouTubeURL'], config['API_KEY'], config['sleep_time'])
+    liveChat = live_chat_reader(youtube_config)
     liveChat.main_loop()
     liveChat.dump_start_time()
 
