@@ -1,4 +1,3 @@
-*.yaml
 log/
 __pycache__/
 log_buf/
@@ -6,8 +5,13 @@ kivy-todolist/
 build/
 dist/
 SuperChatReader/
+src/__pycache__/
+
+*.pyc
+*.yaml
 *.spec
 rec.txt
 todo.kv
 Main.py
 *.zip
+*.json
